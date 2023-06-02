@@ -13,7 +13,7 @@ public class HabrCareerDateTimeParser implements DateTimeParser {
         Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}\\w\\d{2}:\\d{2}:\\d{2}");
         Matcher matcher = pattern.matcher(parse);
         if (!matcher.find()) {
-            throw new IllegalArgumentException (String.format("DateTime string \"%s\" is not valid", parse));
+            throw new IllegalArgumentException(String.format("DateTime string \"%s\" is not valid", parse));
         }
         return LocalDateTime.parse(matcher.group(), FORMATTER);
     }

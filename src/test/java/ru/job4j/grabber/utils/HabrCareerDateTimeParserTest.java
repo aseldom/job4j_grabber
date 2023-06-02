@@ -12,7 +12,7 @@ class HabrCareerDateTimeParserTest {
     @Test
     void parseDateTimeMatchingPattern() {
         HabrCareerDateTimeParser parser = new HabrCareerDateTimeParser();
-        String in = "2023-06-01T09:23:20";
+        String in = "2023-06-01T09:23:20+03:00";
         String expect = "2023-06-01T09:23:20";
         assertThat(parser.parse(in).toString()).isEqualTo(expect);
     }

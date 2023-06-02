@@ -17,5 +17,4 @@ public class HabrCareerDateTimeParser implements DateTimeParser {
         }
         return LocalDateTime.parse(matcher.group(), FORMATTER);
     }
-
 }

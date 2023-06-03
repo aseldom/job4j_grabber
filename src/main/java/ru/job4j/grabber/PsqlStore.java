@@ -45,8 +45,8 @@ public class PsqlStore implements Store, AutoCloseable {
                     posts.add(new Post(
                             res.getInt("id"),
                             res.getString("name"),
-                            res.getString("text"),
                             res.getString("link"),
+                            res.getString("text"),
                             res.getTimestamp("created").toLocalDateTime()));
                 }
             }

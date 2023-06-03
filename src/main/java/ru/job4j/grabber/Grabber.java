@@ -92,12 +92,5 @@ public class Grabber implements Grab {
         Grabber grabber = new Grabber(parse, store, scheduler, time);
         grabber.init();
         grabber.web(store, cfg);
-//
-//        Grabber grab = new Grabber(parse, store, scheduler, time);
-//        grab.cfg();
-//        Scheduler scheduler = grab.scheduler();
-//        Store store = grab.store();
-//        grab.init(new HabrCareerParse(new HabrCareerDateTimeParser()), store, scheduler);
-//        grab.web(store);
     }
 }

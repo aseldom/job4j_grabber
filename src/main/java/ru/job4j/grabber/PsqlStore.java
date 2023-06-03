@@ -1,12 +1,37 @@
 package ru.job4j.grabber;
 
+import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class PsqlStore implements Store, AutoCloseable {
+
     private final Connection cnn;
+
+    public static void main(String[] args) throws Exception {
+        List<Post> postList;
+        Properties properties = new Properties();
+        HabrCareerParse parse = new HabrCareerParse(new HabrCareerDateTimeParser());
+        try (InputStream in = new FileInputStream("db/liquibase.properties")) {
+            properties.load(in);
+        }
+        try (PsqlStore store = new PsqlStore(properties)) {
+            postList = new ArrayList<>(parse.list("https://career.habr.com/vacancies/java_developer?page="));
+            postList.forEach(store::save);
+            System.out.println("------------------ Print all posts ------------------");
+            store.getAll().forEach(post -> {
+                System.out.println(post);
+                System.out.println("-".repeat(50));
+            });
+            System.out.println("------------------ Find by id (15) ------------------");
+            System.out.println(store.findById(15));
+        }
+    }
 
     public PsqlStore(Properties cfg) {
         try {
@@ -24,8 +49,8 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public void save(Post post) {
         try (PreparedStatement st = cnn.prepareStatement(
-                    "INSERT INTO posts (name, text, link, created) VALUES (?, ?, ?, ?)"
-                            + "ON CONFLICT (link) DO NOTHING")) {
+                "INSERT INTO posts (name, text, link, created) VALUES (?, ?, ?, ?)"
+                        + "ON CONFLICT (link) DO NOTHING")) {
             st.setString(1, post.getTitle());
             st.setString(2, post.getDescription());
             st.setString(3, post.getLink());
@@ -66,8 +91,8 @@ public class PsqlStore implements Store, AutoCloseable {
                     post = new Post(
                             res.getInt("id"),
                             res.getString("name"),
-                            res.getString("text"),
                             res.getString("link"),
+                            res.getString("text"),
                             res.getTimestamp("created").toLocalDateTime());
                 }
             }

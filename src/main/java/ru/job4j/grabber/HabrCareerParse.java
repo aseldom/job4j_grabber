@@ -6,7 +6,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.job4j.grabber.utils.DateTimeParser;
-import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -14,23 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HabrCareerParse implements Parse {
-
     private static final String SOURCE_LINK = "https://career.habr.com";
-    private static final String PAGE_LINK = String.format("%s/vacancies/java_developer?page=", SOURCE_LINK);
+    public static final String PAGE_LINK = String.format("%s/vacancies/java_developer?page=", SOURCE_LINK);
     private final DateTimeParser dateTimeParser;
     private static final int NUMBER_OF_PAGES = 5;
-    private List<Post> posts = new ArrayList<>();
 
     public HabrCareerParse(DateTimeParser dateTimeParser) {
         this.dateTimeParser = dateTimeParser;
     }
 
-    public static void main(String[] args) {
-        HabrCareerParse habrCareerParse = new HabrCareerParse(new HabrCareerDateTimeParser());
-        habrCareerParse.posts = habrCareerParse.list(PAGE_LINK);
-    }
-
-    public List<Post> parsePage(Document document) {
+    private List<Post> parsePage(Document document) {
         List<Post> postList = new ArrayList<>();
         Elements rows = document.select(".vacancy-card__inner");
         rows.forEach(row -> {

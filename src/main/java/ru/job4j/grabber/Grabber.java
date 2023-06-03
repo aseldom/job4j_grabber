@@ -12,6 +12,7 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 public class Grabber implements Grab {
+
     private final Parse parse;
     private final Store store;
     private final Scheduler scheduler;

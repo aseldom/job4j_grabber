@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 public class DirFileCache extends AbstractCache<String, String> {
@@ -17,7 +17,7 @@ public class DirFileCache extends AbstractCache<String, String> {
 
     public boolean checkFile(String file) {
         boolean res = true;
-        if (!Files.isRegularFile(Paths.get(cachingDir, file))) {
+        if (!Files.isRegularFile(Path.of(cachingDir, file))) {
             System.out.printf("Неверно введено название файла: %s%n%n", file);
             res = false;
         }
@@ -28,7 +28,7 @@ public class DirFileCache extends AbstractCache<String, String> {
     protected String load(String key) {
         String res = "";
         try (BufferedReader reader = new BufferedReader(
-                new FileReader(Paths.get(cachingDir, key).toString()))) {
+                new FileReader(Path.of(cachingDir, key).toString()))) {
             res = reader.lines().collect(Collectors.joining("\n"));
         } catch (IOException e) {
             e.printStackTrace();

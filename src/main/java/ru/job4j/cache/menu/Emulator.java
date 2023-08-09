@@ -22,7 +22,8 @@ public class Emulator {
             Введите любое другое число для выхода.
             """;
 
-    public void init(Scanner scanner) {
+    public void init() {
+        Scanner scanner = new Scanner(System.in);
         String path = null;
         String file = null;
         boolean dirExist = false;
@@ -80,9 +81,7 @@ public class Emulator {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         Emulator emulator = new Emulator();
-        emulator.init(scanner);
-
+        emulator.init();
     }
 }
